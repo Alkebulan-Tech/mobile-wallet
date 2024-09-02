@@ -1,0 +1,23 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches: [mmf]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: mmf-dev
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure Firebase CLI
+        uses: firebase/firebase-cli-action@v2
+        with:
+          args: login --ci --token ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Deploy to Firebase
+        uses: firebase/firebase-cli-action@v2
+        with:
+          args: deploy --project ${{ secrets.FIREBASE_PROJECT_ID }} android --app ${{ secrets.FIREBASE_APP_ID }} --release-notes "Release notes"
