@@ -15,8 +15,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
-                apply("mifospay.android.lint")
                 apply("com.dropbox.dependency-guard")
+                apply("mifos.detekt.plugin")
+                apply("mifos.spotless.plugin")
+                apply("mifos.git.hooks")
             }
 
             extensions.configure<ApplicationExtension> {

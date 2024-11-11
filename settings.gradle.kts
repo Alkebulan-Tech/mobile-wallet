@@ -6,6 +6,7 @@ pluginManagement {
         mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
@@ -15,12 +16,32 @@ dependencyResolutionManagement {
         maven("https://plugins.gradle.org/m2/")
     }
 }
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("0.8.0")
+    id("org.ajoberstar.reckon.settings") version("0.18.3")
+}
+
+extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
+    setDefaultInferredScope("patch")
+    stages("beta", "rc", "final")
+    setScopeCalc { java.util.Optional.of(org.ajoberstar.reckon.core.Scope.PATCH) }
+    setScopeCalc(calcScopeFromProp().or(calcScopeFromCommitMessages()))
+    setStageCalc(calcStageFromProp())
+    setTagWriter { it.toString() }
+}
+
 rootProject.name = "mobile-wallet"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-include(":mifospay")
+
+include(":mifospay-shared")
+include(":mifospay-android")
+include(":mifospay-desktop")
+include(":mifospay-web")
 
 include(":core:data")
+include(":core:domain")
 include(":core:datastore")
 include(":core:designsystem")
 include(":core:ui")
@@ -30,8 +51,6 @@ include(":core:network")
 include(":core:model")
 include(":core:datastore-proto")
 include(":core:analytics")
-
-include(":lint")
 
 include(":feature:home")
 include(":feature:history")
@@ -56,12 +75,5 @@ include(":feature:payments")
 include(":feature:request-money")
 include(":feature:upi-setup")
 include(":feature:qr")
-include(":feature:search")
 
-include(":libs:country-code-picker")
-include(":libs:pullrefresh")
-include(":libs:material3-navigation")
 include(":libs:mifos-passcode")
-
-include(":shared")
-include(":desktop")
