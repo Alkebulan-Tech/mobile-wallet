@@ -35,11 +35,20 @@ kotlin {
             dependsOn(commonMain.get())
             dependencies {
                 implementation(projects.mifospayShared)
+                implementation(projects.core.common)
+                implementation(projects.core.data)
+                implementation(projects.core.model)
+                implementation(projects.core.datastore)
+
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.components.resources)
+
+                implementation(libs.multiplatform.settings)
+                implementation(libs.multiplatform.settings.serialization)
+                implementation(libs.multiplatform.settings.coroutines)
             }
         }
 
