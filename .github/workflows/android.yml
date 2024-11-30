@@ -22,10 +22,11 @@ jobs:
 
       - name: Authenticate with Firebase
         env:
-          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
         run: |
-          echo $FIREBASE_SERVICE_ACCOUNT_JSON > firebase_credentials.json
-          firebase auth:login:ci --no-localhost --token "$(cat firebase_credentials.json)"
+          echo $GOOGLE_APPLICATION_CREDENTIALS > firebase_credentials.json
+          export GOOGLE_APPLICATION_CREDENTIALS=firebase_credentials.json
+          firebase projects:list # Test authentication
 
       - name: Build the APK
         run: ./gradlew assembleRelease # Adjust if using a different build system
