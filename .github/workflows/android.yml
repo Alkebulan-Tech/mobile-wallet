@@ -26,7 +26,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0  # Correct action
         with:
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}  # Your Firebase service account JSON key
-          app: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID
+          appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID
           groups: "kemetx-mobile-wallet"  # Optional: Specify groups of testers
           file: app/build/outputs/apk/prod/mifospay-android-prod-release.apk  # Path to APK
           release-notes: "New release from GitHub Actions"  # Optional release notes
