@@ -29,12 +29,14 @@ jobs:
       - name: Set up Firebase Service Account Credentials
         run: |
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > firebase_credentials.json
-          export GOOGLE_APPLICATION_CREDENTIALS=firebase_credentials.json
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
+
+      - name: Authenticate Firebase CLI
+        run: firebase login:ci --token ${{ secrets.FIREBASE_CI_TOKEN }}
 
       - name: Verify Firebase Authentication
         run: firebase projects:list
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
 
       - name: Build the APK
         run: ./gradlew assembleRelease # Update the path if necessary
