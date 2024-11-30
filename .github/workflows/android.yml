@@ -22,7 +22,7 @@ jobs:
           ./gradlew assembleRelease
 
       - name: Upload to Firebase App Distribution
-        uses: firebase/firebase-tools@v3  # Correct action
+        uses: firebase/firebase-tools@v1  # Correct action
         with:
           token: ${{ secrets.FIREBASE_TOKEN }}  # Firebase CI token
           app: ${{ secrets.FIREBASE_APP_ID }}   # Firebase App ID
