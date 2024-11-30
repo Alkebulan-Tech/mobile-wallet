@@ -31,6 +31,9 @@ jobs:
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > firebase_credentials.json
           export GOOGLE_APPLICATION_CREDENTIALS=firebase_credentials.json
 
+      - name: Debug Service Account File
+        run: cat firebase_credentials.json # Use with caution, for debugging only!
+
       - name: Verify Firebase Authentication
         env:
           GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
