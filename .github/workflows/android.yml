@@ -2,7 +2,7 @@ name: Deploy to Firebase
 
 on:
   push:
-    branches: [mmf]
+    branches: [dev-kemetx]
 
 jobs:
   deploy:
