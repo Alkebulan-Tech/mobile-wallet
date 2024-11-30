@@ -12,6 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up OpenJDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # Temurin is the OpenJDK distribution by Adoptium
+          java-version: '17' # Ensure Java 17 is used
+
+      - name: Verify Java Version
+        run: java -version # Confirm OpenJDK version
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
