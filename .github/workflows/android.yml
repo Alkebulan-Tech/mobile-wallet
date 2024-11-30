@@ -29,4 +29,4 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID
           groups: "kemetx-mobile-wallet"  # Optional: Specify groups of testers
           file: app/build/outputs/apk/prod/mifospay-android-prod-release.apk  # Path to APK
-          release-notes: "New release from GitHub Actions"  # Optional release notes
+          releaseNotes: "New release from GitHub Actions"  # Optional release notes
