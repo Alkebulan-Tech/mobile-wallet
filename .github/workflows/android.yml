@@ -22,10 +22,10 @@ jobs:
           ./gradlew assembleRelease
 
       - name: Upload to Firebase App Distribution
-        uses: firebase/firebase-action@v2
+        uses: firebase/firebase-tools@v11  # Correct action
         with:
-          token: ${{ secrets.FIREBASE_TOKEN }}  # Ensure this secret is set correctly
-          app: ${{ secrets.FIREBASE_APP_ID }}   # The Firebase App ID from the Firebase Console
+          token: ${{ secrets.FIREBASE_TOKEN }}  # Firebase CI token
+          app: ${{ secrets.FIREBASE_APP_ID }}   # Firebase App ID
           groups: "kemetx-mobile-wallet"        # Optional: Specify groups of testers
           file: app/build/outputs/apk/prod/mifospay-android-prod-release.apk  # Verify APK path
           release-notes: "New release from GitHub Actions"  # Optional release notes
