@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: mmf-dev
-    
+
     steps:
       - uses: actions/checkout@v3
 
@@ -31,23 +31,26 @@ jobs:
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}" > firebase_credentials.json
           export GOOGLE_APPLICATION_CREDENTIALS=firebase_credentials.json
 
-      - name: Debug Service Account File
-        run: cat firebase_credentials.json # Use with caution, for debugging only!
-
-      - name: Verify Firebase Authentication
+      - name: Authenticate Firebase CLI
+        run: |
+          firebase auth:activate-service-account \
+            --project ${{ secrets.FIREBASE_PROJECT_ID }} \
+            --key-file firebase_credentials.json
         env:
           GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
+
+      - name: Verify Firebase Authentication
         run: firebase projects:list
 
       - name: Build the APK
         run: ./gradlew assembleRelease # Update the path if necessary
 
       - name: Deploy APK to Firebase App Distribution
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
         run: |
           firebase appdistribution:distribute \
             app/build/outputs/apk/prod/mifospay-android-prod-release.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --groups "kemetx-mobile-wallet" \
             --release-notes "New release from GitHub Actions"
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: firebase_credentials.json
