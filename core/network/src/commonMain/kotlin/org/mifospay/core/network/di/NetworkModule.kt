@@ -52,7 +52,7 @@ val NetworkModule = module {
             }
 
             defaultRequest {
-                header("Fineract-Platform-TenantId", "venus")
+                header("Fineract-Platform-TenantId", "kemetx")
                 header("Content-Type", "application/json")
                 header("Accept", "application/json")
             }
