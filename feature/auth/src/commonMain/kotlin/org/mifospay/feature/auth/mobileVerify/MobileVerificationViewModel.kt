@@ -11,8 +11,6 @@ package org.mifospay.feature.auth.mobileVerify
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mifospay.core.common.DataState
@@ -32,9 +30,9 @@ class MobileVerificationViewModel(
     initialState = savedStateHandle[KEY_STATE] ?: MobileVerificationState.VerifyPhoneState(),
 ) {
 
-    init {
-        stateFlow.onEach { savedStateHandle[KEY_STATE] = it }.launchIn(viewModelScope)
-    }
+//    init {
+//        stateFlow.onEach { savedStateHandle[KEY_STATE] = it }.launchIn(viewModelScope)
+//    }
 
     override fun handleAction(action: MobileVerificationAction) {
         when (action) {

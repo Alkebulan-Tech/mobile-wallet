@@ -11,16 +11,6 @@ import com.google.gms.googleservices.GoogleServicesPlugin.GoogleServicesPluginCo
 import org.mifospay.MifosBuildType
 import org.mifospay.dynamicVersion
 
-/*
- * Copyright 2024 Mifos Initiative
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- *
- * See https://github.com/openMF/mobile-wallet/blob/master/LICENSE.md
- */
-
 plugins {
     alias(libs.plugins.mifospay.android.application)
     alias(libs.plugins.mifospay.android.application.compose)
@@ -29,7 +19,6 @@ plugins {
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
-    alias(libs.plugins.firebase.appdistribution)
 }
 
 android {
@@ -37,7 +26,7 @@ android {
 
     defaultConfig {
         applicationId = "org.mifospay"
-        versionName = project.dynamicVersion
+        versionName = System.getenv("VERSION") ?: project.dynamicVersion
         versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -45,7 +34,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "release_keystore.keystore")
+            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "../keystores/release_keystore.keystore")
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "Mifospay"
             keyAlias = System.getenv("KEYSTORE_ALIAS") ?: "key0"
             keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: "Mifos@123"
@@ -59,10 +48,12 @@ android {
             applicationIdSuffix = MifosBuildType.DEBUG.applicationIdSuffix
         }
 
+        // Disabling proguard for now until
+        // https://github.com/openMF/mobile-wallet/issues/1815 this issue is resolved
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             applicationIdSuffix = MifosBuildType.RELEASE.applicationIdSuffix
-            isShrinkResources = true
+            isShrinkResources = false
             isDebuggable = false
             isJniDebuggable = false
             signingConfig = signingConfigs.getByName("release")
@@ -142,12 +133,6 @@ dependencyGuard {
         modules = true
         tree = true
     }
-}
-
-firebaseAppDistribution {
-    serviceCredentialsFile = "mifospay-android/firebaseAppDistributionServiceCredentialsFile.json"
-    releaseNotesFile = "./mifospay-android/build/outputs/changelogBeta"
-    groups = "mifos-wallet-testers"
 }
 
 // Disable to fix memory leak and be compatible with the configuration cache.

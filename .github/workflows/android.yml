@@ -1,23 +1,32 @@
-name: Deploy to Firebase
+name: Firebase App Distribution
 
 on:
   push:
-    branches: [mmf]
+    branches: [dev-kemetx]
 
 jobs:
-  deploy:
+  build-and-upload:
     runs-on: ubuntu-latest
     environment: mmf-dev
-    
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configure Firebase CLI
-        uses: firebase/firebase-cli-action@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          args: login --ci --token ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Deploy to Firebase
-        uses: firebase/firebase-cli-action@v2
+      - name: Build the APK
+        run: |
+          ./gradlew :mifospay-android:assembleRelease
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0  # Correct action
         with:
-          args: deploy --project ${{ secrets.FIREBASE_PROJECT_ID }} android --app ${{ secrets.FIREBASE_APP_ID }} --release-notes "Release notes"
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}  # Your Firebase service account JSON key
+          appId: ${{ secrets.FIREBASE_APP_ID }}  # Firebase App ID
+          groups: "kemetx-mobile-wallet"  # Optional: Specify groups of testers
+          file: ./mifospay-android/build/outputs/apk/prod/release/mifospay-android-prod-release.apk  # Path to APK
+          releaseNotes: "New release from GitHub Actions"  # Optional release notes
