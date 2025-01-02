@@ -13,9 +13,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -78,11 +76,11 @@ internal class MakeTransferViewModel(
             initialValue = ViewState.Loading,
         )
 
-    init {
-        stateFlow.onEach { state ->
-            savedStateHandle[KEY_STATE] = state
-        }.launchIn(viewModelScope)
-    }
+//    init {
+//        stateFlow.onEach { state ->
+//            savedStateHandle[KEY_STATE] = state
+//        }.launchIn(viewModelScope)
+//    }
 
     override fun handleAction(action: MakeTransferAction) {
         when (action) {

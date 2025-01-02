@@ -21,6 +21,14 @@ bin/
 gen/
 out/
 build/
+.externalNativeBuild
+.cxx
+iosApp/Podfile.lock
+iosApp/Pods/*
+iosApp/iosApp.xcworkspace/*
+iosApp/iosApp.xcodeproj/*
+!iosApp/iosApp.xcodeproj/project.pbxproj
+mifospay-shared/mifospay-shared.podspec
 
 # Eclipse project files
 .classpath
@@ -40,9 +48,6 @@ build/
 !/.idea/codeStyles/Project.xml
 !/.idea/codeStyles/codeStyleConfig.xml
 
-# Gradle cache
-.gradle
-
 # Kotlin
 .kotlin
 
@@ -54,15 +59,16 @@ app/app.iml
 app/manifest-merger-release-report.txt
 
 # Exclude Google services from prod flavour
-mifospay/src/prod/google-services.json
+mifospay-android/src/prod/google-services.json
 
 #*.keystore
 
 version.txt
-
+fastlane/report.xml
 firebaseAppDistributionServiceCredentialsFile.json
 playStorePublishServiceCredentialsFile.json
 
 # Ruby stuff we don't care about
 .bundle/
 vendor/
+secrets/

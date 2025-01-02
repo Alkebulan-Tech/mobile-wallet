@@ -10,9 +10,6 @@
 package org.mifospay.feature.payments
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.mifospay.core.common.Parcelable
 import org.mifospay.core.common.Parcelize
 import org.mifospay.core.datastore.UserPreferencesRepository
@@ -34,9 +31,9 @@ class TransferViewModel(
     },
 ) {
     init {
-        stateFlow
-            .onEach { savedStateHandle[KEY] = it }
-            .launchIn(viewModelScope)
+//        stateFlow
+//            .onEach { savedStateHandle[KEY] = it }
+//            .launchIn(viewModelScope)
     }
 
     override fun handleAction(action: TransferAction) {
